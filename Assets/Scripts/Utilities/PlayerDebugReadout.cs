@@ -33,7 +33,8 @@ public class PlayerDebugReadout : MonoBehaviour
             $"VX: {velocity.x:0.00}\n" + 
             $"VY: {velocity.y:0.00}\n" + 
             $"Input: {playerMovement.HorizontalInput:0}\n" +
-            $"Skidding: {playerMovement.IsSkidding}";
+            $"Is skidding: {playerMovement.IsSkidding}\n" + 
+            $"Is running: {playerMovement.IsRunning}\n";
 
         GUI.Label(new Rect(12, 12, 120, 120), debugText, style);
     }
