@@ -5,6 +5,8 @@ public class PlayerDebugReadout : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private bool showDebug = true;
+    [SerializeField] private bool showRunningDebug = true;
+    [SerializeField] private bool showJumpingDebug = true;
 
     private GUIStyle style;
 
@@ -27,14 +29,26 @@ public class PlayerDebugReadout : MonoBehaviour
             return;
         }
 
-        Vector2 velocity = playerMovement.Velocity;
+        string debugText = "";
+        if (showRunningDebug)
+        {
+            Vector2 velocity = playerMovement.Velocity;
 
-        string debugText =
-            $"VX: {velocity.x:0.00}\n" + 
-            $"VY: {velocity.y:0.00}\n" + 
-            $"Input: {playerMovement.HorizontalInput:0}\n" +
-            $"Is skidding: {playerMovement.IsSkidding}\n" + 
-            $"Is running: {playerMovement.IsRunning}\n";
+            debugText =
+                $"VX: {velocity.x:0.00}\n" +
+                $"VY: {velocity.y:0.00}\n" +
+                $"Input: {playerMovement.HorizontalInput:0}\n" +
+                $"Is skidding: {playerMovement.IsSkidding}\n" +
+                $"Is running: {playerMovement.IsRunning}\n";
+        }
+        else if(showJumpingDebug)
+        {
+            debugText =
+                $"isGrounded: {playerMovement.IsGrounded}\n" +
+                $"jumpBufferCounter: {playerMovement.JumpBufferCounter:0.00}\n" +
+                $"jumpHeld: {playerMovement.JumpHeld}\n" +
+                $"jumpReleased: {playerMovement.JumpReleasedBufferCounter:0.00}\n";
+        }
 
         GUI.Label(new Rect(12, 12, 120, 120), debugText, style);
     }

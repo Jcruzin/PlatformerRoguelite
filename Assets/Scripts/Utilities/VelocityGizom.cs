@@ -7,10 +7,11 @@ public class VelocityGizom : MonoBehaviour
     [SerializeField] private Rigidbody2D targetRigidBody;
     [SerializeField] private float arrowScale = 0.35f;
     [SerializeField] private bool drawOnlyWhenPlaying = true;
+    [SerializeField] private bool showGizmo = true;
 
     private void OnDrawGizmos()
     {
-        if(targetRigidBody == null)
+        if(targetRigidBody == null || !showGizmo)
         {
             return;
         }
