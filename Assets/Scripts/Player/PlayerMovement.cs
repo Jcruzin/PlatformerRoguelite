@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpBufferCounter;
     private bool jumpHeld = false;
     private float jumpReleaseBufferCounter;
+    private bool isJumping = false;
 
     public Vector2 Velocity => rb.linearVelocity;
     public float HorizontalInput => horizontalInput;
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     public float JumpBufferCounter => jumpBufferCounter;
     public bool JumpHeld => jumpHeld;
     public float JumpReleasedBufferCounter => jumpReleaseBufferCounter;
-
+    public bool IsJumping => isJumping;
 
 
     private void Awake()
@@ -90,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
         ApplyBetterGravity();
         if (isGrounded)
         {
+            isJumping = false;
             ApplyGroundHorizontalMovement();
         }
         else
@@ -208,6 +210,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = velocity;
             isGrounded = false;
             jumpBufferCounter = 0;
+            isJumping = true;
         }
 
         if(jumpReleaseBufferCounter > 0f && rb.linearVelocity.y > 0f)

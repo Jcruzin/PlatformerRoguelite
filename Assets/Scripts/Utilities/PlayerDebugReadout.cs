@@ -47,7 +47,8 @@ public class PlayerDebugReadout : MonoBehaviour
                 $"isGrounded: {playerMovement.IsGrounded}\n" +
                 $"jumpBufferCounter: {playerMovement.JumpBufferCounter:0.00}\n" +
                 $"jumpHeld: {playerMovement.JumpHeld}\n" +
-                $"jumpReleased: {playerMovement.JumpReleasedBufferCounter:0.00}\n";
+                $"jumpReleased: {playerMovement.JumpReleasedBufferCounter:0.00}\n" +
+                $"isJumping: {playerMovement.IsJumping}\n";
         }
 
         GUI.Label(new Rect(12, 12, 120, 120), debugText, style);
