@@ -1,9 +1,9 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerDebugReadout : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerState playerState;
     [SerializeField] private bool showDebug = true;
     [SerializeField] private bool showRunningDebug = true;
     [SerializeField] private bool showJumpingDebug = true;
@@ -35,6 +35,7 @@ public class PlayerDebugReadout : MonoBehaviour
             Vector2 velocity = playerMovement.Velocity;
 
             debugText =
+                $"Big Mode: {playerState.IsBigMode}\n" +
                 $"VX: {velocity.x:0.00}\n" +
                 $"VY: {velocity.y:0.00}\n" +
                 $"Input: {playerMovement.HorizontalInput:0}\n" +
@@ -44,6 +45,7 @@ public class PlayerDebugReadout : MonoBehaviour
         else if(showJumpingDebug)
         {
             debugText =
+                $"Big Mode: {playerState.IsBigMode}\n" +
                 $"isGrounded: {playerMovement.IsGrounded}\n" +
                 $"jumpBufferCounter: {playerMovement.JumpBufferCounter:0.00}\n" +
                 $"jumpHeld: {playerMovement.JumpHeld}\n" +

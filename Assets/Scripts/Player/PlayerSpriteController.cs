@@ -1,15 +1,24 @@
+using System;
 using UnityEngine;
+
+[Serializable]
+public class PlayerAnimationSet
+{
+    public Sprite idle;
+    public Sprite[] movement;
+    public Sprite jump;
+    public Sprite skid;
+}
 
 [RequireComponent (typeof(SpriteRenderer))]
 [RequireComponent (typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerState))]
 public class PlayerSpriteController : MonoBehaviour
 {
 
     [Header("Sprites")]
-    [SerializeField] private Sprite idleSprite;
-    [SerializeField] private Sprite[] movementFrames;
-    [SerializeField] private Sprite skidSprite;
-    [SerializeField] private Sprite jumpSprite;
+    [SerializeField] private PlayerAnimationSet bigAnimations;
+    [SerializeField] private PlayerAnimationSet smallAnimations;
 
     [Header("Timing")]
     [SerializeField] private float minimumSkidTime = 0.12f;
@@ -24,6 +33,8 @@ public class PlayerSpriteController : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private PlayerMovement playerMovement;
+    private PlayerState playerState;
+    private PlayerAnimationSet playerAnimationSet;
 
     private float skidTimer;
     private float movementFrameTimer;
@@ -33,30 +44,28 @@ public class PlayerSpriteController : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerMovement = GetComponent<PlayerMovement>();
-
-        if(idleSprite == null )
-        {
-            idleSprite = spriteRenderer.sprite;
-        }
+        playerState = GetComponent<PlayerState>();
+        playerAnimationSet = playerState.IsBigMode ? bigAnimations : smallAnimations;
     }
 
     private void LateUpdate()
     {
+        playerAnimationSet = playerState.IsBigMode ? bigAnimations : smallAnimations;
         UpdateSkidTimer();
         UpdateSprite();
     }
 
     private void UpdateSprite()
     {
-        if (skidTimer > 0f && skidSprite != null)
+        if (skidTimer > 0f && playerAnimationSet.skid != null)
         {
-            spriteRenderer.sprite = skidSprite;
+            spriteRenderer.sprite = playerAnimationSet.skid;
             return;
         }
 
-        if (playerMovement.IsJumping && jumpSprite != null)
+        if (playerMovement.IsJumping && playerAnimationSet.jump != null)
         {
-            spriteRenderer.sprite = jumpSprite;
+            spriteRenderer.sprite = playerAnimationSet.jump;
             return;
         }
 
@@ -65,8 +74,8 @@ public class PlayerSpriteController : MonoBehaviour
         bool shouldPlayMovementAnimation =
             playerMovement.IsGrounded &&
             horizontalSpeed >= movementAnimationThreshold &&
-            movementFrames != null &&
-            movementFrames.Length > 0;
+            playerAnimationSet.movement != null &&
+            playerAnimationSet.movement.Length > 0;
 
         if (shouldPlayMovementAnimation)
         {
@@ -76,9 +85,9 @@ public class PlayerSpriteController : MonoBehaviour
 
         ResetMovementAnimation();
 
-        if (idleSprite != null)
+        if (playerAnimationSet.idle != null)
         {
-            spriteRenderer.sprite = idleSprite;
+            spriteRenderer.sprite = playerAnimationSet.idle;
         }
     }
 
@@ -114,10 +123,10 @@ public class PlayerSpriteController : MonoBehaviour
         if(movementFrameTimer >= currentFrameTime)
         {
             movementFrameTimer = 0f;
-            movementFrameIndex = (movementFrameIndex + 1) % movementFrames.Length;
+            movementFrameIndex = (movementFrameIndex + 1) % playerAnimationSet.movement.Length;
 ;       }
 
-        spriteRenderer.sprite = movementFrames[movementFrameIndex];
+        spriteRenderer.sprite = playerAnimationSet.movement[movementFrameIndex];
     }
 
     private void ResetMovementAnimation()

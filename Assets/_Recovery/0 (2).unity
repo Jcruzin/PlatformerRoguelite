@@ -696,7 +696,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDebugReadout
   playerMovement: {fileID: 1168630570}
-  playerState: {fileID: 1168630572}
   showDebug: 1
   showRunningDebug: 0
   showJumpingDebug: 1
@@ -1181,10 +1180,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: -0.2
+    y: -0.25
+    width: 0.4
+    height: 0.5
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -2061,7 +2060,6 @@ GameObject:
   - component: {fileID: 1168630568}
   - component: {fileID: 1168630570}
   - component: {fileID: 1168630571}
-  - component: {fileID: 1168630572}
   m_Layer: 0
   m_Name: Chumi
   m_TagString: Untagged
@@ -2261,40 +2259,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945def97673acc1418af11f68515683c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteController
-  bigAnimations:
-    idle: {fileID: 2246116259770140638, guid: 12a5546140774564aaa6b049290f8358, type: 3}
-    movement:
-    - {fileID: -7566138250158232873, guid: 12a5546140774564aaa6b049290f8358, type: 3}
-    - {fileID: 126444678, guid: 12a5546140774564aaa6b049290f8358, type: 3}
-    - {fileID: -803220141, guid: 12a5546140774564aaa6b049290f8358, type: 3}
-    jump: {fileID: 21300000, guid: e6bedfe5dca8c4a4db1b0cfb2d9d88e5, type: 3}
-    skid: {fileID: -223489461, guid: 12a5546140774564aaa6b049290f8358, type: 3}
-  smallAnimations:
-    idle: {fileID: 2794206350430631574, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
-    movement:
-    - {fileID: 333509689764979506, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
-    - {fileID: -8289308173107680400, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
-    - {fileID: 8491438074459956493, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
-    jump: {fileID: 21300000, guid: 4ec872afea6a2ca42b1e9c49ed545e6a, type: 3}
-    skid: {fileID: 754977533, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
+  idleSprites:
+  - {fileID: 2794206350430631574, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
+  - {fileID: 2246116259770140638, guid: 12a5546140774564aaa6b049290f8358, type: 3}
+  movementFrames:
+  - {fileID: 333509689764979506, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
+  - {fileID: -8289308173107680400, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
+  - {fileID: 8491438074459956493, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
+  - {fileID: -7566138250158232873, guid: 12a5546140774564aaa6b049290f8358, type: 3}
+  - {fileID: 126444678, guid: 12a5546140774564aaa6b049290f8358, type: 3}
+  - {fileID: -803220141, guid: 12a5546140774564aaa6b049290f8358, type: 3}
+  skidSprites:
+  - {fileID: 754977533, guid: 0df76b3c311871a4fb626689e9335f43, type: 3}
+  - {fileID: -223489461, guid: 12a5546140774564aaa6b049290f8358, type: 3}
+  jumpSprites:
+  - {fileID: 21300000, guid: 4ec872afea6a2ca42b1e9c49ed545e6a, type: 3}
+  - {fileID: 21300000, guid: e6bedfe5dca8c4a4db1b0cfb2d9d88e5, type: 3}
   minimumSkidTime: 0.12
   movementAnimationThreshold: 0.1
   maxExpectedSpeed: 13
   slowestFrameTime: 0.16
   fastestFrameTime: 0.055
---- !u!114 &1168630572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1168630565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1046a0e469b991e41861f60a4799683a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerState
-  groundCheck: {fileID: 349209493}
 --- !u!1 &1268079429
 GameObject:
   m_ObjectHideFlags: 0

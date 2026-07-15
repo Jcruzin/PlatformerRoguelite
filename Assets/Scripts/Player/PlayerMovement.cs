@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float turnDeceleration = 20f;
     [SerializeField] private float midAirDeceleration = 30f;
 
-
     [Header("Skid")]
     [SerializeField] private float skidSpeedThreshold = 2.5f;
 
@@ -50,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     public bool JumpHeld => jumpHeld;
     public float JumpReleasedBufferCounter => jumpReleaseBufferCounter;
     public bool IsJumping => isJumping;
-
 
     private void Awake()
     {
@@ -103,7 +101,6 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyGroundHorizontalMovement()
     {
         Vector2 velocity = rb.linearVelocity;
-        float currentVelocity = Mathf.Abs(velocity.x);
         float currentAbsSpeed = Mathf.Abs(velocity.x);
         bool hasInput = horizontalInput != 0f;
         bool isTryingToReverse = hasInput &&
