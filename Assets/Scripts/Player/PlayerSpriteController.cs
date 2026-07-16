@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [Serializable]
@@ -39,6 +40,21 @@ public class PlayerSpriteController : MonoBehaviour
     private float skidTimer;
     private float movementFrameTimer;
     private int movementFrameIndex;
+    private bool hasSpriteOverride;
+    private Sprite overrideSprite;
+
+    public void SetSpriteOverride(Sprite sprite)
+    {
+        hasSpriteOverride = true;
+        overrideSprite = sprite;
+        spriteRenderer.sprite = sprite;
+    }
+
+    public void ClearSpriteOverride()
+    {
+        hasSpriteOverride = false;
+        overrideSprite = null;
+    }
 
     private void Awake()
     {
@@ -50,6 +66,11 @@ public class PlayerSpriteController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (hasSpriteOverride)
+        {
+            spriteRenderer.sprite = overrideSprite;
+            return;
+        }
         playerAnimationSet = playerState.IsBigMode ? bigAnimations : smallAnimations;
         UpdateSkidTimer();
         UpdateSprite();
@@ -133,5 +154,12 @@ public class PlayerSpriteController : MonoBehaviour
     {
         movementFrameTimer = 0f;
         movementFrameIndex = 0;
+    }
+
+    public void SetOpacity(float alphaValue)
+    {
+        Color currentColor = spriteRenderer.color;
+        currentColor.a = alphaValue;
+        spriteRenderer.color = currentColor;
     }
 }

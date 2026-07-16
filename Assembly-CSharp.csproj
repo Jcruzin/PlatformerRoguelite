@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerSpriteController.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerPowerupTransition.cs" />
     <Compile Include="Assets\Scripts\Utilities\PlayerDebugReadout.cs" />
   </ItemGroup>
   <ItemGroup>

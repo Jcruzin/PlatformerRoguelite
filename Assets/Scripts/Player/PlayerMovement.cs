@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     private float jumpReleaseBufferCounter;
     private bool isJumping = false;
 
+    private bool controlLocked = false;
+
     public Vector2 Velocity => rb.linearVelocity;
     public float HorizontalInput => horizontalInput;
     public bool IsSkidding => isSkidding;
@@ -50,6 +52,16 @@ public class PlayerMovement : MonoBehaviour
     public float JumpReleasedBufferCounter => jumpReleaseBufferCounter;
     public bool IsJumping => isJumping;
 
+    public void SetControlLocked(bool locked)
+    {
+        controlLocked = locked;
+    }
+
+    public void SetVelocity(Vector2 velocity)
+    {
+        rb.linearVelocity = velocity;
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -58,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (controlLocked) return;
         jumpHeld = Input.GetKey(KeyCode.Z);
         if (Input.GetKeyDown(KeyCode.Z)) 
         {

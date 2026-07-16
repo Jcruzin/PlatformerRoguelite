@@ -11,18 +11,24 @@ public class PlayerState : MonoBehaviour
 
     public bool IsBigMode => isBigMode;
 
+    public void SetBigMode(bool big)
+    {
+        if(isBigMode == big) return;
+        ChangeSize();
+    }
+
     private void Awake()
     {
        boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ChangeSize();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.B))
+    //    {
+    //        ChangeSize();
+    //    }
+    //}
 
     private void ChangeSize()
     {
