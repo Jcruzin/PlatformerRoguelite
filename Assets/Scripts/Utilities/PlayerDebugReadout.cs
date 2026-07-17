@@ -46,6 +46,7 @@ public class PlayerDebugReadout : MonoBehaviour
         {
             debugText =
                 $"Big Mode: {playerState.IsBigMode}\n" +
+                $"isCrouched: {playerMovement.IsCrouched}\n" +
                 $"isGrounded: {playerMovement.IsGrounded}\n" +
                 $"jumpBufferCounter: {playerMovement.JumpBufferCounter:0.00}\n" +
                 $"jumpHeld: {playerMovement.JumpHeld}\n" +

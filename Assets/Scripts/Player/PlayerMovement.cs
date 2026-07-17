@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(PlayerState))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Walk Movement")]
@@ -30,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
+    private PlayerState playerState;
+    private BoxCollider2D boxCollider;
     private float horizontalInput;
     private bool isSkidding;
     private bool isRunning = false;
@@ -39,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private bool jumpHeld = false;
     private float jumpReleaseBufferCounter;
     private bool isJumping = false;
+    private bool isCrouched = false;
 
     private bool controlLocked = false;
 
@@ -51,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
     public bool JumpHeld => jumpHeld;
     public float JumpReleasedBufferCounter => jumpReleaseBufferCounter;
     public bool IsJumping => isJumping;
+    public bool IsCrouched => isCrouched;
+
 
     public void SetControlLocked(bool locked)
     {
@@ -66,11 +74,14 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        playerState = GetComponent<PlayerState>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
     {
         if (controlLocked) return;
+
         jumpHeld = Input.GetKey(KeyCode.Z);
         if (Input.GetKeyDown(KeyCode.Z)) 
         {
@@ -91,8 +102,23 @@ public class PlayerMovement : MonoBehaviour
         }
 
         horizontalInput = Input.GetAxisRaw("Horizontal");
+        if(isGrounded && MathF.Abs(horizontalInput) > 0.001f)
+        {
+            if (isCrouched)
+            {
+                SetCrouch(false);
+            } 
+        }
+        else if (Input.GetKey(KeyCode.DownArrow) && playerState.IsBigMode && !isCrouched && isGrounded)
+        {
+            SetCrouch(true);
+        }
+        else if(Input.GetKeyUp(KeyCode.DownArrow) && isCrouched) 
+        {
+            SetCrouch(false);
+        }
         isRunning = Input.GetKey(KeyCode.X);
-        UpdateFacingDirection();
+        if(!isCrouched) UpdateFacingDirection();
     }
 
     private void FixedUpdate()
@@ -105,10 +131,10 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
             ApplyGroundHorizontalMovement();
         }
-        else
+        else if(!isGrounded)
         {
             ApplyAirHorizontalMovement();
-        }
+        } 
     }
 
     private void ApplyGroundHorizontalMovement()
@@ -128,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
 
         isSkidding = isTryingToReverse;
 
-        if (hasInput)
+        if (hasInput && !isCrouched)
         {
             float maxSpeed = isRunning ? maxRunSpeed : maxWalkSpeed;
             float targetSpeed = horizontalInput * maxSpeed;
@@ -246,5 +272,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb.linearVelocity = velocity;
+    }
+
+    private void SetCrouch(bool crouch)
+    {
+        isCrouched = crouch;
+        float colliderSize = isCrouched ? 0.75f : 1.333333f;
+        float positionChange = isCrouched ? -0.25f : 0.25f;
+
+        boxCollider.size *= new Vector3(1f, colliderSize, 1f);
+        transform.position += new Vector3(0f, positionChange, 0f);
+        groundCheck.localPosition -= new Vector3(0f, positionChange, 0f);
     }
 }

@@ -20,6 +20,7 @@ public class PlayerSpriteController : MonoBehaviour
     [Header("Sprites")]
     [SerializeField] private PlayerAnimationSet bigAnimations;
     [SerializeField] private PlayerAnimationSet smallAnimations;
+    [SerializeField] private Sprite crouched;
 
     [Header("Timing")]
     [SerializeField] private float minimumSkidTime = 0.12f;
@@ -84,9 +85,15 @@ public class PlayerSpriteController : MonoBehaviour
             return;
         }
 
-        if (playerMovement.IsJumping && playerAnimationSet.jump != null)
+        if (!playerMovement.IsCrouched && playerMovement.IsJumping && playerAnimationSet.jump != null)
         {
             spriteRenderer.sprite = playerAnimationSet.jump;
+            return;
+        }
+
+        if(playerMovement.IsCrouched && crouched != null)
+        {
+            spriteRenderer.sprite = crouched;
             return;
         }
 

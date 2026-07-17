@@ -22,14 +22,6 @@ public class PlayerState : MonoBehaviour
        boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.B))
-    //    {
-    //        ChangeSize();
-    //    }
-    //}
-
     private void ChangeSize()
     {
         if (!isBigMode)
