@@ -67,6 +67,10 @@ public class PlayerSpriteController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (GamePauseManager.IsPausedFor(PauseReason.PauseMenu))
+        {
+            return;
+        }
         if (hasSpriteOverride)
         {
             spriteRenderer.sprite = overrideSprite;

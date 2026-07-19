@@ -17,6 +17,7 @@ public class PowerUpTransitionSequence
 
     public IEnumerator PlayStartFrame(PlayerSpriteController controller)
     {
+        yield return new WaitUntil(() => !GamePauseManager.IsPausedFor(PauseReason.PauseMenu));
         controller.SetSpriteOverride(startFrame);
         yield return new WaitForSecondsRealtime(frameTime);
     }
@@ -27,6 +28,7 @@ public class PowerUpTransitionSequence
         {
             for (int i = 0; i < alternatingFrames.Length; i++)
             {
+                yield return new WaitUntil(() => !GamePauseManager.IsPausedFor(PauseReason.PauseMenu));
                 Sprite frame = alternatingFrames[i];
                 if (frame == null) continue;
                 if (lowerOpacity) controller.SetOpacity(0.7f);
@@ -39,6 +41,7 @@ public class PowerUpTransitionSequence
 
     public IEnumerator PlayFinalFrame(PlayerSpriteController controller)
     {
+        yield return new WaitUntil(() => !GamePauseManager.IsPausedFor(PauseReason.PauseMenu));
         controller.SetSpriteOverride(finalFrame);
         yield return new WaitForSecondsRealtime(finalHoldTime);
     }
@@ -74,6 +77,10 @@ public class PlayerPowerupTransition : MonoBehaviour
 
     private void Update()
     {
+        if (GamePauseManager.IsPausedFor(PauseReason.PauseMenu))
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.B))
         {
             if (playerState.IsBigMode)
@@ -129,13 +136,11 @@ public class PlayerPowerupTransition : MonoBehaviour
         bool wasGrounded = playerMovement.IsGrounded;
         bool wasMovingUpward = !wasGrounded && savedVelocity.y > upwardVelocityThreshold;
 
-        float previousTimeScale = Time.timeScale;
-
         playerMovement.SetControlLocked(true);
 
         if(invokeBefore) applyPowerup?.Invoke();
 
-        Time.timeScale = 0f;
+        GamePauseManager.RequestPause(PauseReason.PowerupTransition);
 
         if(sequence.startFrame != null) yield return sequence.PlayStartFrame(playerSpriteController);
 
@@ -154,7 +159,7 @@ public class PlayerPowerupTransition : MonoBehaviour
 
         if(sequence.finalFrame != null) yield return sequence.PlayFinalFrame(playerSpriteController);
 
-        Time.timeScale = previousTimeScale;
+        GamePauseManager.ReleasePause(PauseReason.PowerupTransition);
 
         playerSpriteController.ClearSpriteOverride();
         playerMovement.SetControlLocked(false);

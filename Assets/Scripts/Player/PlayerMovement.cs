@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (controlLocked) return;
+        if (GamePauseManager.IsPaused) return;
 
         jumpHeld = Input.GetKey(KeyCode.Z);
         if (Input.GetKeyDown(KeyCode.Z)) 
