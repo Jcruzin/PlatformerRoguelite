@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerSpriteController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPowerupTransition.cs" />
     <Compile Include="Assets\Scripts\Utilities\PlayerDebugReadout.cs" />
+    <Compile Include="Assets\Scripts\Core\CameraController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
