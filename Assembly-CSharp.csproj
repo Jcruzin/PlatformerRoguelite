@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Core\GamePauseManager.cs" />
     <Compile Include="Assets\Scripts\Core\PauseInputController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerSpriteController.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerDeathSequence.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPowerupTransition.cs" />
     <Compile Include="Assets\Scripts\Utilities\PlayerDebugReadout.cs" />
     <Compile Include="Assets\Scripts\Core\CameraController.cs" />

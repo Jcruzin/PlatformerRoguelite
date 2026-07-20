@@ -8,7 +8,7 @@ public enum PauseReason
     PowerupTransition, 
     PauseMenu, 
     Cutscene, 
-    HitStop,
+    GameOver,
 }
 
 public class GamePauseManager : MonoBehaviour

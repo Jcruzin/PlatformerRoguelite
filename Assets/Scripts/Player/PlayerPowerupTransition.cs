@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
 
@@ -83,11 +84,7 @@ public class PlayerPowerupTransition : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            if (playerState.IsBigMode)
-            {
-                PlaySmallModeTransition();
-            }
-            else 
+            if (!playerState.IsBigMode)
             {
                 PlayBigModeTransition();
             }

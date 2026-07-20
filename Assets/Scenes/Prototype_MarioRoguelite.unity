@@ -3141,8 +3141,6 @@ MonoBehaviour:
   useRightLimit: 1
   rightLimit: 90
   leftBoundary: {fileID: 415045560}
-  leftBoundaryWidth: 1
-  boundaryInset: 10
 --- !u!1 &554050210
 GameObject:
   m_ObjectHideFlags: 0
@@ -6768,6 +6766,7 @@ GameObject:
   - component: {fileID: 1168630571}
   - component: {fileID: 1168630572}
   - component: {fileID: 1168630573}
+  - component: {fileID: 1168630574}
   m_Layer: 0
   m_Name: Chumi
   m_TagString: Untagged
@@ -7034,6 +7033,24 @@ MonoBehaviour:
     finalHoldTime: 0.08
   upwardVelocityThreshold: 0.1
   midairUpgradeBoost: 1.25
+--- !u!114 &1168630574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168630565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061593e38c61dac4691071479cfcce54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathSequence
+  dead: {fileID: 21300000, guid: e44fe91b24e53614e8e09e4c98026e99, type: 3}
+  hopDelay: 0.4
+  hopVelocity: 12
+  gravity: 24
+  fallBelowCameraPadding: 2
+  maxDeathAnimationTime: 3
 --- !u!1 &1180021643
 GameObject:
   m_ObjectHideFlags: 0

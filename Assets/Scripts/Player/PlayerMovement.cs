@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(PlayerState))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent (typeof(PlayerPowerupTransition))]
+[RequireComponent(typeof(PlayerDeathSequence))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Walk Movement")]
@@ -35,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sprite;
     private PlayerState playerState;
     private BoxCollider2D boxCollider;
+    private PlayerPowerupTransition transition;
+    private PlayerDeathSequence deathSequence;
     private float horizontalInput;
     private bool isSkidding;
     private bool isRunning = false;
@@ -45,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpReleaseBufferCounter;
     private bool isJumping = false;
     private bool isCrouched = false;
+    private bool gameOver = false;
 
     private bool controlLocked = false;
 
@@ -58,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public float JumpReleasedBufferCounter => jumpReleaseBufferCounter;
     public bool IsJumping => isJumping;
     public bool IsCrouched => isCrouched;
+    public bool GameOver => gameOver;
 
 
     public void SetControlLocked(bool locked)
@@ -76,11 +82,18 @@ public class PlayerMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         playerState = GetComponent<PlayerState>();
         boxCollider = GetComponent<BoxCollider2D>();
+        transition = GetComponent<PlayerPowerupTransition>();
+        deathSequence = GetComponent<PlayerDeathSequence>();
     }
 
     private void Update()
     {
-        if (GamePauseManager.IsPaused) return;
+        if (GamePauseManager.IsPaused || gameOver) return;
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            TakeHit();
+        }
 
         jumpHeld = Input.GetKey(KeyCode.Z);
         if (Input.GetKeyDown(KeyCode.Z)) 
@@ -283,5 +296,21 @@ public class PlayerMovement : MonoBehaviour
         boxCollider.size *= new Vector3(1f, colliderSize, 1f);
         transform.position += new Vector3(0f, positionChange, 0f);
         groundCheck.localPosition -= new Vector3(0f, positionChange, 0f);
+    }
+
+    public void TakeHit()
+    {
+        if (playerState.IsBigMode)
+        {
+            if (transition != null)
+            {
+                transition.PlaySmallModeTransition();
+            }
+        }
+        else
+        {
+            gameOver = true;
+            deathSequence.PlayDeath();
+        }
     }
 }
